@@ -1,5 +1,4 @@
-# EcoFinds
-Hackathon project – Sustainable Second-Hand Marketplace
+
 # EcoFinds 🌱
 *A simple second-hand marketplace for students and communities*
 
