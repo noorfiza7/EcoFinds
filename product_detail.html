@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Details</title>
+  <style>
+    .product { border: 1px solid #ccc; padding: 10px; margin: 10px 0; width: 300px; }
+    img { max-width: 100px; display: block; margin-bottom: 5px; }
+    button { margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Product Details</h2>
+  <div id="productList"></div>
+  <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+
+  <script>
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (!loggedInUser) { window.location.href = "index.html"; }
+
+    let products = JSON.parse(localStorage.getItem("products") || "[]");
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    function renderProducts() {
+      const productList = document.getElementById("productList");
+      productList.innerHTML = "";
+
+      if (products.length === 0) {
+        productList.innerHTML = "<p>No products available.</p>";
+      } else {
+        products.forEach((p, index) => {
+          const div = document.createElement("div");
+          div.className = "product";
+
+          let imgHTML = p.image ? `<img src="${p.image}" alt="${p.name}">` : "";
+          div.innerHTML = `
+            <strong>${p.name}</strong><br>
+            ${imgHTML}
+            <em>${p.details}</em><br>
+            <p>${p.desc}</p>
+          `;
+
+          const btn = document.createElement("button");
+          btn.textContent = "Add to Cart";
+          btn.onclick = () => addToCart(index);
+          div.appendChild(btn);
+
+          productList.appendChild(div);
+        });
+      }
+    }
+
+    function addToCart(index) {
+      cart.push(products[index]);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(products[index].name + " added to cart!");
+    }
+
+    renderProducts();
+  </script>
+</body>
+</html>

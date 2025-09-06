@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Product</title>
+  <style>
+    input, textarea { display: block; margin: 5px 0; width: 300px; }
+    button { margin: 5px 0; }
+    img { max-width: 100px; display: block; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Add New Product</h2>
+
+  <input type="text" id="productName" placeholder="Product Name" />
+  <input type="text" id="productDetails" placeholder="Product Details" />
+  <input type="text" id="productImage" placeholder="Image URL" />
+  <textarea id="productDesc" placeholder="Product Description"></textarea>
+  <button onclick="addProduct()">Add Product</button>
+  <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+
+  <script>
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (!loggedInUser) { window.location.href = "index.html"; }
+
+    let products = JSON.parse(localStorage.getItem("products") || "[]");
+
+    function addProduct() {
+      const name = document.getElementById("productName").value.trim();
+      const details = document.getElementById("productDetails").value.trim();
+      const image = document.getElementById("productImage").value.trim();
+      const desc = document.getElementById("productDesc").value.trim();
+
+      if (!name || !details || !desc) {
+        alert("Please fill all fields (image optional)");
+        return;
+      }
+
+      const newProduct = { name, details, image, desc };
+      products.push(newProduct);
+      localStorage.setItem("products", JSON.stringify(products));
+
+      document.getElementById("productName").value = "";
+      document.getElementById("productDetails").value = "";
+      document.getElementById("productImage").value = "";
+      document.getElementById("productDesc").value = "";
+
+      alert("Product added successfully!");
+    }
+  </script>
+</body>
+</html>
